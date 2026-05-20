@@ -19,15 +19,12 @@ public class TelaEstoquista extends JFrame {
     private DefaultTableModel modelo = new DefaultTableModel(colunas, 0) {
         @Override
         public boolean isCellEditable(int row, int column) {
-            return false; // FIX: bloqueia edição direta sem desabilitar seleção
+            return false; // bloqueia edição direta sem desabilitar seleção
         }
     };
     private JTable tabela = new JTable(modelo);
-
     private JLabel lblBarra      = new JLabel("Pesquisa: ");
     private JTextField txtPesquisa = new JTextField();
-
-    // FIX: sorter para filtro de pesquisa
     private TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
 
     public TelaEstoquista() {
@@ -64,7 +61,7 @@ public class TelaEstoquista extends JFrame {
         txtPesquisa.setAlignmentX(Component.LEFT_ALIGNMENT);
         txtPesquisa.setFont(new Font("Monospaced", Font.PLAIN, 14));
 
-        // FIX: pesquisa funcional filtrando por SKU (coluna 0)
+        // pesquisa funcional filtrando por SKU 
         txtPesquisa.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             private void filtrar() {
                 String texto = txtPesquisa.getText().trim();
@@ -143,7 +140,7 @@ public class TelaEstoquista extends JFrame {
         pnlCard.add(btnCadastro);
         pnlCard.add(Box.createVerticalStrut(10));
 
-        // FIX: botões Editar/Remover adicionados ao painel com tamanho definido
+        // botões Editar/Remover adicionados ao painel
         JPanel pnlBotoes = new JPanel(new GridLayout(1, 2, 10, 10));
         pnlBotoes.setBackground(Color.WHITE);
         pnlBotoes.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -167,8 +164,6 @@ public class TelaEstoquista extends JFrame {
 
         add(pnlCard, BorderLayout.WEST);
 
-        // --- Listeners ---
-
         // Cálculo automático do preço de venda
         txtValorCusto.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             private void calcular() {
@@ -184,7 +179,6 @@ public class TelaEstoquista extends JFrame {
             public void changedUpdate(javax.swing.event.DocumentEvent e) { calcular(); }
         });
 
-        // FIX: apenas UM listener no btnCadastro, com campos corretos
         btnCadastro.addActionListener(e -> {
             if (txtSKU.getText().isEmpty() || txtPeca.getText().isEmpty() ||
                     txtValorCusto.getText().isEmpty() || txtQuantidade.getText().isEmpty()) {
@@ -208,7 +202,7 @@ public class TelaEstoquista extends JFrame {
                 txtQuantidade.setText("");
                 lblPreco.setText("Preço de venda: R$ 0,00");
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Valor de custo inválido!"); // FIX: this
+                JOptionPane.showMessageDialog(this, "Valor de custo inválido!");
             }
         });
 
@@ -221,8 +215,6 @@ public class TelaEstoquista extends JFrame {
                 JOptionPane.showMessageDialog(this, "Selecione uma linha!");
             }
         });
-
-        // FIX: Editar com campos corretos (txtSKU e txtQuantidade)
     // Editar — atualiza TODOS os campos da linha selecionada
 btnEditar.addActionListener(e -> {
     int linha = tabela.getSelectedRow();
@@ -269,7 +261,7 @@ tabela.getSelectionModel().addListSelectionListener(ev -> {
         txtSKU.setText(modelo.getValueAt(ml, 0).toString());
         txtPeca.setText(modelo.getValueAt(ml, 1).toString());
 
-        // Extrai o número do custo formatado "R$ 99,99" → "99.99"
+        // Extrai o número do custo formatado "R$ 99,99" para "99.99"
         String custoStr = modelo.getValueAt(ml, 3).toString()
                 .replace("R$ ", "").replace(",", ".");
         txtValorCusto.setText(custoStr);
