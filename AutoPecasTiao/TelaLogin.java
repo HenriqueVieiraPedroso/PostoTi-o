@@ -18,7 +18,7 @@ public class TelaLogin extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new GridBagLayout());
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        getContentPane().setBackground(new Color(60, 60, 60)); // fundo cinza na tela
+        getContentPane().setBackground(Color.LIGHT_GRAY); // fundo cinza na tela
 
         pnlDados.setLayout(new BoxLayout(pnlDados, BoxLayout.Y_AXIS));
         pnlDados.setAlignmentX(Component.LEFT_ALIGNMENT);
